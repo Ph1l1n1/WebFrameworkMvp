@@ -24,7 +24,6 @@ export default class Driver {
      */
     // @ts-ignore
     public static async init(): Promise<Driver> {
-        //let browserContext : BrowserContext
         try {
             const browser = await chromium.launch({
                 chromiumSandbox: true,

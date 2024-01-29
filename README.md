@@ -21,9 +21,9 @@
 |------TestPage.ts Тестируемая страница
 |------elements Элементы
 |----qwaFramework Ресурсы для работы фрейворка
-|------core Сервис core - базовые сущности
-|------playwright Сервис playwright - сущгости драйвера playwright
-|------mainHooks.ts Хуки в разрезе времени исполнения теста
+|------core Сервис core - базовые сущности фреймворка
+|------playwright Сервис playwright - сущности драйвера playwright
+|------mainHooks.ts Хуки - функции запускаемые на определенных этапах исполнения теста
 |--tests Тесты
 |--mocha.parallel.conf.js Конфиг файл для запуска тестов
 
@@ -42,20 +42,21 @@
 
 1. `SPEC` - Путь до запускаемого теста
 
-   **Пример**: `SPEC='tests/Test1.ts' mocha-parallel-tests --config mocha.parallel.conf.js"`
+    **Пример**: `SPEC='tests/Test1.ts' mocha-parallel-tests --config mocha.parallel.conf.js"`
 
-   **По дефолту** в параллельном режиме будут запущены все тесты находящиеся в папке `tests`
+    **По дефолту** в параллельном режиме будут запущены все тесты находящиеся в папке `tests`
+
 2. `DEVICE` - Эмуляция мобильного девайса через
 
     **Пример**: `DEVICE='iPhone 14' mocha-parallel-tests --config mocha.parallel.conf.js"'`
 
     [Cписок доступных стройств](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json)
 
-2. `HEADLESS` - Запуск браузера в безголовом режиме
+3. `HEADLESS` - Запуск браузера в безголовом режиме
 
     **Пример**: `HEADLESS=false  mocha-parallel-tests --config mocha.parallel.conf.js"'`
 
-3. `LOG` - Уровень логирования в консоле
+4. `LOG` - Уровень логирования в консоле
 
     **Пример**: `LOG=info mocha-parallel-tests --config mocha.parallel.conf.js"'`
 
@@ -75,4 +76,4 @@
 -   Сделать кастомный runner с возможностью параметризации
 -   Вынести логику `mainHooks` в каждый и сервисов
 -   Улучшить вывод в лог: убрать лишние и добавить префиксы для каждого из сервисов
-- 
+-

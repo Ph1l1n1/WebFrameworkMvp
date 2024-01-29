@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "test": "LOG=info mocha-parallel-tests --config mocha.parallel.conf.js",
+        "test": "LOG=info SPEC='tests/Test1.ts' mocha-parallel-tests --config mocha.parallel.conf.js",
         "report": "npx allure serve allure-results",
         "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
     },

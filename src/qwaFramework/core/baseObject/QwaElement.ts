@@ -8,28 +8,14 @@ export default class QwaElement {
     public parent: QwaElement | QwaPage | unknown
     public locator: string
 
-    // public element: Locator
-
     constructor(name: string, locator: string, parent?: QwaElement) {
         this.name = name
         this.locator = locator
         this.parent = parent
-        //this.lazyElementInitialization()
     }
-
-    // private lazyElementInitialization() {
-    //     Object.defineProperty(this, 'element', {
-    //         get(): Locator {
-    //              console.log(`this.locator ${this.locator}`)
-    //              return this.locator
-    //                  //return pw.page.locator(this.locator).first()
-    //         },
-    //     })
-    // }
 
     // @ts-ignore
     private async findElementInIframe(): Promise<Locator> {
-        //console.log(`page.frames(): ${pw.page.frames().length}`)
         const start = Date.now()
         const time = pw.getDefaultTimeout()
         while (Date.now() - start < time) {
@@ -42,7 +28,6 @@ export default class QwaElement {
             }
             await pw.page.waitForTimeout(1000)
         }
-        console.log('azazazazaza')
     }
 
     public async click(): Promise<void> {
