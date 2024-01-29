@@ -1,5 +1,5 @@
-import QwaPage from '../qwaFramework/core/mainEntities/QwaPage'
-import QwaElement from '../qwaFramework/core/mainEntities/QwaElement'
+import QwaPage from '../qwaFramework/core/baseObject/QwaPage'
+import QwaElement from '../qwaFramework/core/baseObject/QwaElement'
 import WidgetMain from './elements/WidgetMain'
 
 export default class TestPage extends QwaPage {

@@ -1,10 +1,10 @@
-import Pw, { PwType } from './Pw'
-import { debug } from '../core/utils/logger/Logs'
+import Driver from './Driver'
+import { debug } from '../core/microService/logger/Logs'
 
 export class ServicePlaywright {
     public static async beforeAll(): Promise<void> {
         debug(`ServicePlaywright - beforeAll`)
-        pw  = await Pw.init()
+        pw  = await Driver.init()
     }
 
     public static async afterAll(): Promise<void> {
@@ -13,4 +13,4 @@ export class ServicePlaywright {
     }
 }
 
-export let pw : Pw
+export let pw : Driver

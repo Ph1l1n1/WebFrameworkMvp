@@ -1,4 +1,4 @@
-import QwaElement from '../../qwaFramework/core/mainEntities/QwaElement'
+import QwaElement from '../../qwaFramework/core/baseObject/QwaElement'
 import WidgetDonateForm from './WidgetDonateForm'
 import WidgetPaymentOption from './WidgetPaymentOption'
 import WidgetCreditCard from './WidgetCreditCard'

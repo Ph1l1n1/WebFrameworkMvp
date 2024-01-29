@@ -1,5 +1,5 @@
-import Logs, { debug } from './utils/logger/Logs'
-import Steps from './utils/steps/Steps'
+import Logs, { debug } from './microService/logger/Logs'
+import QwaSteps, { StepUtils } from './baseObject/QwaSteps'
 
 export class ServiceCore {
     public static async beforeAll(testName : string): Promise<void> {
@@ -8,4 +8,5 @@ export class ServiceCore {
     }
 }
 
-export const steps: Steps = new Steps()
+export const steps: QwaSteps = new QwaSteps()
+export const stepsUtils: StepUtils = new StepUtils()

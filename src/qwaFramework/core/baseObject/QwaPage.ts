@@ -1,12 +1,5 @@
 import { pw } from '../../playwright/ServicePlaywright'
-
-export type PwWaitUntil = 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
-
-export type PwGoToOptions = {
-    referer?: string
-    timeout?: number
-    waitUntil?: PwWaitUntil
-}
+import { debug } from '../microService/logger/Logs'
 
 export default class QwaPage {
     public url: string
@@ -17,7 +10,18 @@ export default class QwaPage {
         this.url = url
     }
 
-    public async goToUrl(url: string, options?: PwGoToOptions): Promise<void> {
+    public async goToPage(page: QwaPage): Promise<any> {
+        debug('goToPage')
+        await pw.page.goto(page.url)
+        await this.pageLoaded(page)
+    }
+
+    public async pageLoaded(page: QwaPage): Promise<any> {
+        debug('pageLoaded')
+        await page.isLoaded()
+    }
+
+    public async goToUrl(url: string): Promise<void> {
         await pw.page.goto(url)
     }
 
@@ -25,7 +29,7 @@ export default class QwaPage {
         timeout?: number
         waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
     }): Promise<void> {
-        await pw.page.reload(options)
+        await pw.page.reload()
     }
 
     public async isLoaded(): Promise<boolean> {

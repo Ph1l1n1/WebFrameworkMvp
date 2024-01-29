@@ -1,4 +1,4 @@
-import QwaElement from '../../qwaFramework/core/mainEntities/QwaElement'
+import QwaElement from '../../qwaFramework/core/baseObject/QwaElement'
 
 export default class WidgetPaymentOption extends QwaElement {
 

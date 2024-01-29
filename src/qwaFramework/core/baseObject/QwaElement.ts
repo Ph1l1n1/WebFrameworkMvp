@@ -1,7 +1,7 @@
 import QwaPage from './QwaPage'
 import { Locator } from 'playwright'
 import { pw } from '../../playwright/ServicePlaywright'
-import { debug, error } from '../utils/logger/Logs'
+import { debug, error } from '../microService/logger/Logs'
 
 export default class QwaElement {
     public name: string

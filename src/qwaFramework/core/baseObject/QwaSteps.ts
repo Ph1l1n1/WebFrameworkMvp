@@ -1,25 +1,21 @@
-import { error, info } from '../logger/Logs'
-import QwaElement from '../../mainEntities/QwaElement'
-import QwaPage from '../../mainEntities/QwaPage'
-import { pw } from '../../../playwright/ServicePlaywright'
+import { error, info } from '../microService/logger/Logs'
+import QwaElement from './QwaElement'
+import QwaPage from './QwaPage'
 import assert from 'assert'
-import { steps } from '../../ServiceCore'
+import { steps, stepsUtils } from '../ServiceCore'
 
 type AnyAsyncFunction = (...args: any[]) => Promise<any>
 
-export default class Steps {
+export default class QwaSteps {
     private asyncFunctions: AnyAsyncFunction[] = []
     private asyncConteinerFunctions: AnyAsyncFunction[] = []
-    public prefix = ''
 
-    // @step('Переход по страницу')
     @qwaStep('Переход по страницу: {0}')
     private async _goTo(name: string, page: QwaPage): Promise<any> {
-        await pw.page.goto(page.url, { waitUntil: 'domcontentloaded' })
-        await page.isLoaded()
+        await page.goToPage(page)
     }
 
-    public goTo(page: QwaPage): Steps {
+    public goTo(page: QwaPage): QwaSteps {
         this.asyncFunctions.push(async () => await this._goTo(page.name, page))
         return this
     }
@@ -29,7 +25,7 @@ export default class Steps {
         await element.click()
     }
 
-    public click(element: QwaElement): Steps {
+    public click(element: QwaElement): QwaSteps {
         this.asyncFunctions.push(
             async () => await this._click(element.name, element)
         )
@@ -41,15 +37,15 @@ export default class Steps {
         stepName: string,
         asyncFunction: () => Promise<void>
     ): Promise<void> {
-        this.prefix = '  '
+        stepsUtils.prefix = '  '
         await asyncFunction()
-        this.prefix = ''
+        stepsUtils.prefix = ''
     }
 
     public createStep(
         stepName: string,
         asyncFunction: () => Promise<void>
-    ): Steps {
+    ): QwaSteps {
         this.asyncConteinerFunctions.push(
             async () => await this._createStep(stepName, asyncFunction)
         )
@@ -64,7 +60,7 @@ export default class Steps {
         await element.isVisible()
     }
 
-    public waitForLoad(element: QwaElement): Steps {
+    public waitForLoad(element: QwaElement): QwaSteps {
         this.asyncFunctions.push(
             async () => await this._waitForLoad(element.name, element)
         )
@@ -80,7 +76,7 @@ export default class Steps {
         await element.input(value)
     }
 
-    public fillField(element: QwaElement, value: string): Steps {
+    public fillField(element: QwaElement, value: string): QwaSteps {
         this.asyncFunctions.push(
             async () => await this._fillField(element.name, value, element)
         )
@@ -96,7 +92,7 @@ export default class Steps {
         await element.select(value)
     }
 
-    public select(element: QwaElement, value: string): Steps {
+    public select(element: QwaElement, value: string): QwaSteps {
         this.asyncFunctions.push(
             async () => await this._select(element.name, value, element)
         )
@@ -121,7 +117,10 @@ export default class Steps {
         }
     }
 
-    public checkElementText(element: QwaElement, expectedValue: string): Steps {
+    public checkElementText(
+        element: QwaElement,
+        expectedValue: string
+    ): QwaSteps {
         this.asyncFunctions.push(
             async () =>
                 await this._checkElementText(
@@ -165,6 +164,9 @@ function formatString(template: string, ...args: any[]): string {
 
 /**
  * Декоратор для всех шагов
+ * Служит для:
+ * 1 Логирования действий в отчет
+ * 2 Логирования действий в консоль
  */
 function qwaStep(logText: string) {
     return function (
@@ -176,9 +178,8 @@ function qwaStep(logText: string) {
 
         descriptor.value = async function (...args: any[]) {
             const stepName = formatString(logText, ...args)
-            info(steps.prefix + stepName)
+            info(stepsUtils.prefix + stepName)
             try {
-                await pw.page.waitForTimeout(100)
                 await originalMethod.apply(this, args)
                 //allure.logStep(stepName, Status.PASSED)
             } catch (e) {
@@ -192,4 +193,8 @@ function qwaStep(logText: string) {
         }
         return descriptor
     }
+}
+
+export class StepUtils {
+    public prefix = ''
 }

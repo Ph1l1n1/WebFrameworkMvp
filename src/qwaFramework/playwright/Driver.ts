@@ -1,17 +1,7 @@
 import { Browser, BrowserContext, chromium, devices, Page } from 'playwright'
-import { debug, error } from '../core/utils/logger/Logs'
+import { debug, error } from '../core/microService/logger/Logs'
 
-export type PwType = {
-    browser: Browser
-    browserContext: BrowserContext
-    page: Page
-    defaultTimeout: number
-    init(): Promise<void>
-    close(): Promise<void>
-    setDefaultTimeouts(): Promise<void>
-}
-
-export default class Pw /*implements PwType*/ {
+export default class Driver {
     public browser: Browser
     public browserContext: BrowserContext
     public page: Page
@@ -33,7 +23,7 @@ export default class Pw /*implements PwType*/ {
      * @private
      */
     // @ts-ignore
-    public static async init(): Promise<Pw> {
+    public static async init(): Promise<Driver> {
         //let browserContext : BrowserContext
         try {
             const browser = await chromium.launch({
@@ -41,13 +31,14 @@ export default class Pw /*implements PwType*/ {
                 headless: process.env.HEADLESS === 'false' ? false : true,
             })
 
-            const device = process.env.DEVICE || '';
-            const browserContext = await browser.newContext(device ? devices[device] : {});
-
+            const device = process.env.DEVICE || ''
+            const browserContext = await browser.newContext(
+                device ? devices[device] : {}
+            )
 
             const page = await browserContext.newPage()
             debug(`Browser started`)
-            return new Pw(browser, browserContext, page)
+            return new Driver(browser, browserContext, page)
         } catch (e) {
             error(e)
         }
