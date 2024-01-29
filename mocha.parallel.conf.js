@@ -3,16 +3,15 @@ const { resolve } = require('path')
 module.exports = {
     //extension: ['ts'],
     require: ['ts-node/register'],
-    spec: 'tests/**/*.ts',
+    spec: process.env.SPEC ? process.env.SPEC : 'tests/**/*.ts',
     colors: true,
-    timeout : 30000,
+    timeout: 30000,
     exit: true,
-    parallel : false,
-    reporter: "allure-mocha",
+    reporter: 'allure-mocha',
     reporterOptions: {
-        reporterEnabled: "list, allure-mocha",
+        reporterEnabled: 'list, allure-mocha',
         allureMochaReporterOptions: {
-            resultsDir: resolve(__dirname, "allure-results"),
+            resultsDir: resolve(__dirname, 'allure-results'),
         },
     },
 }

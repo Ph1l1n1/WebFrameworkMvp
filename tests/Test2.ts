@@ -7,9 +7,9 @@ const page = Pages.testPage
 const widgetDonateForm = Pages.testPage.widgetMain.widgetDonateForm
 
 @suite
-export default class Test1 extends MainHooks {
+export default class Test2 extends MainHooks {
     @test
-    async 'Check pay: card was declined Pay'() {
+    async '2. Check pay: card was declined Pay'() {
         await steps
             .createStep('Открытие формы Secure donation', async () => {
                 await steps

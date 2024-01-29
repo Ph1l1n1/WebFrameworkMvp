@@ -8,7 +8,10 @@ export default class TestPage extends QwaPage {
         `//div[@data-qa="donate-button-label"]`
     )
 
-    widgetMain = new WidgetMain('WidgetMain', '//div[@data-testid="campaign"]/..')
+    widgetMain = new WidgetMain(
+        'WidgetMain',
+        '//div[@data-testid="campaign"]/..'
+    )
 
     async isLoaded(): Promise<boolean> {
         return await this.giveNow.isVisible()

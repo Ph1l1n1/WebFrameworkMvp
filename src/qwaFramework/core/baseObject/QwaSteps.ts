@@ -37,7 +37,7 @@ export default class QwaSteps {
         stepName: string,
         asyncFunction: () => Promise<void>
     ): Promise<void> {
-        stepsUtils.prefix = '  '
+        stepsUtils.prefix = '    '
         await asyncFunction()
         stepsUtils.prefix = ''
     }

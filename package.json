@@ -4,7 +4,8 @@
     "description": "",
     "scripts": {
         "test": "LOG=info mocha-parallel-tests --config mocha.parallel.conf.js",
-        "report": "npx allure serve allure-results"
+        "report": "npx allure serve allure-results",
+        "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
     },
     "author": "f.a.buslaev",
     "license": "ISC",

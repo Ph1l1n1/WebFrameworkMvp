@@ -10,7 +10,7 @@ export default abstract class MainHooks {
         await ServicePlaywright.beforeAll()
     }
 
-    static async after(){
+    static async after() {
         await ServicePlaywright.afterAll()
     }
 }

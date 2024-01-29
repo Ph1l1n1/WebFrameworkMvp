@@ -6,7 +6,7 @@ export default class Logs {
     public static async init(testName: string): Promise<void> {
         Logs.log = pino({
             name: testName,
-            level: process.env.LOG? process.env.LOG : 'info',
+            level: process.env.LOG ? process.env.LOG : 'info',
             transport: {
                 target: 'pino-pretty',
                 options: {

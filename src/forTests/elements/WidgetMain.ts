@@ -14,9 +14,14 @@ export default class WidgetMain extends QwaElement {
         `//*[@data-qa="active-screen-payment-method"]`
     )
 
-    widgetCreditCard = new WidgetCreditCard('WidgetCreditCard', '//*[@data-qa="active-screen-credit-card"]')
-    widgetPersonalInformation = new WidgetPersonalInformation('PersonalInformation', '//*[@data-qa="active-screen-privacy"]')
-
+    widgetCreditCard = new WidgetCreditCard(
+        'WidgetCreditCard',
+        '//*[@data-qa="active-screen-credit-card"]'
+    )
+    widgetPersonalInformation = new WidgetPersonalInformation(
+        'PersonalInformation',
+        '//*[@data-qa="active-screen-privacy"]'
+    )
 
     async isLoaded(): Promise<boolean> {
         return await this.widgetDonateForm.monthlyPlan.isVisible()
