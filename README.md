@@ -61,13 +61,13 @@
 
     **По дефолту** в параллельном режиме будут запущены все тесты находящиеся в папке `tests`
 
-2. `DEVICE` - Эмуляция мобильного девайса через
+2. `DEVICE` - Эмуляция мобильного девайса
 
     **Пример**: `DEVICE='iPhone 14' mocha-parallel-tests --config mocha.parallel.conf.js"'`
 
     [Cписок доступных стройств](https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json)
 
-3. `HEADLESS` - Запуск браузера в безголовом режиме
+3. `HEADLESS` - Запуск браузера без UI 
 
     **Пример**: `HEADLESS=false  mocha-parallel-tests --config mocha.parallel.conf.js"'`
 
