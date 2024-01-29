@@ -11,58 +11,91 @@ export default class Test1 extends MainHooks {
     @test
     async 'Check pay: card was declined Pay'() {
         await steps
-            .goTo(page)
-            .click(page.giveNow)
-            .waitForLoad(page.widgetMain)
-            .run()
+            .createStep('Открытие формы Secure donation', async () => {
+                await steps
+                    .goTo(page)
+                    .click(page.giveNow)
+                    .waitForLoad(page.widgetMain)
+                    .run()
+            })
+            .start()
 
         await steps
-            .click(widgetDonateForm.monthlyPlan)
-            .select(widgetDonateForm.currencySelector, 'USD')
-            .fillField(widgetDonateForm.priceInput, '100')
-            .click(widgetDonateForm.donate)
-            .waitForLoad(page.widgetMain.widgetPaymentOption)
-            .run()
+            .createStep('Заполнение формы Secure donation', async () => {
+                await steps
+                    .click(widgetDonateForm.monthlyPlan)
+                    .select(widgetDonateForm.currencySelector, 'USD')
+                    .fillField(widgetDonateForm.priceInput, '100')
+                    .click(widgetDonateForm.donate)
+                    .waitForLoad(page.widgetMain.widgetPaymentOption)
+                    .run()
+            })
+            .start()
 
         await steps
-            .click(page.widgetMain.widgetPaymentOption.coverTransactionCosts)
-            .click(page.widgetMain.widgetPaymentOption.creditCard)
-            .waitForLoad(page.widgetMain.widgetCreditCard)
-            .run()
+            .createStep('Заполнение формы Payment option', async () => {
+                await steps
+                    .click(
+                        page.widgetMain.widgetPaymentOption
+                            .coverTransactionCosts
+                    )
+                    .click(page.widgetMain.widgetPaymentOption.creditCard)
+                    .waitForLoad(page.widgetMain.widgetCreditCard)
+                    .run()
+            })
+            .start()
 
         await steps
-            .fillField(
-                page.widgetMain.widgetCreditCard.cardNumber,
-                '4242 4242 4242 4242'
-            )
-            .fillField(page.widgetMain.widgetCreditCard.cardExpiry, '04/24')
-            .fillField(page.widgetMain.widgetCreditCard.cardCvc, '000')
-            .click(page.widgetMain.widgetCreditCard.continue)
-            .waitForLoad(page.widgetMain.widgetPersonalInformation)
-            .run()
+            .createStep('Заполнение формы Credit card', async () => {
+                await steps
+                    .fillField(
+                        page.widgetMain.widgetCreditCard.cardNumber,
+                        '4242 4242 4242 4242'
+                    )
+                    .fillField(
+                        page.widgetMain.widgetCreditCard.cardExpiry,
+                        '04/24'
+                    )
+                    .fillField(page.widgetMain.widgetCreditCard.cardCvc, '000')
+                    .click(page.widgetMain.widgetCreditCard.continue)
+                    .waitForLoad(page.widgetMain.widgetPersonalInformation)
+                    .run()
+            })
+            .start()
 
         await steps
-            .fillField(
-                page.widgetMain.widgetPersonalInformation.firstName,
-                'firstName'
-            )
-            .fillField(
-                page.widgetMain.widgetPersonalInformation.lastName,
-                'lastName'
-            )
-            .fillField(
-                page.widgetMain.widgetPersonalInformation.personalEmail,
-                'test@google.com'
-            )
-            .click(page.widgetMain.widgetPersonalInformation.continue)
-            .run()
+            .createStep('Заполнение формы Personal Information', async () => {
+                await steps
+                    .fillField(
+                        page.widgetMain.widgetPersonalInformation.firstName,
+                        'firstName'
+                    )
+                    .fillField(
+                        page.widgetMain.widgetPersonalInformation.lastName,
+                        'lastName'
+                    )
+                    .fillField(
+                        page.widgetMain.widgetPersonalInformation.personalEmail,
+                        'test@google.com'
+                    )
+                    .click(page.widgetMain.widgetPersonalInformation.continue)
+                    .run()
+            })
+            .start()
 
         await steps
-            //.waitForLoad(page.widgetMain.widgetCreditCard)
-            .checkElementText(
-                page.widgetMain.widgetCreditCard.errorMessage,
-                'Your card was declined. Your request was in live mode, but used a known test card.'
+            .createStep(
+                'Проверка отображения виджета CreditCard и ошибки',
+                async () => {
+                    await steps
+                        //.waitForLoad(page.widgetMain.widgetCreditCard)
+                        .checkElementText(
+                            page.widgetMain.widgetCreditCard.errorMessage,
+                            'Your card was declined. Your request was in live mode, but used a known test card.'
+                        )
+                        .run()
+                }
             )
-            .run()
+            .start()
     }
 }

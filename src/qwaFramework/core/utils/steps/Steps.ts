@@ -3,11 +3,14 @@ import QwaElement from '../../mainEntities/QwaElement'
 import QwaPage from '../../mainEntities/QwaPage'
 import { pw } from '../../../playwright/ServicePlaywright'
 import assert from 'assert'
+import { steps } from '../../ServiceCore'
 
 type AnyAsyncFunction = (...args: any[]) => Promise<any>
 
 export default class Steps {
     private asyncFunctions: AnyAsyncFunction[] = []
+    private asyncConteinerFunctions: AnyAsyncFunction[] = []
+    public prefix = ''
 
     // @step('Переход по страницу')
     @qwaStep('Переход по страницу: {0}')
@@ -29,6 +32,26 @@ export default class Steps {
     public click(element: QwaElement): Steps {
         this.asyncFunctions.push(
             async () => await this._click(element.name, element)
+        )
+        return this
+    }
+
+    @qwaStep('{0}')
+    private async _createStep(
+        stepName: string,
+        asyncFunction: () => Promise<void>
+    ): Promise<void> {
+        this.prefix = '  '
+        await asyncFunction()
+        this.prefix = ''
+    }
+
+    public createStep(
+        stepName: string,
+        asyncFunction: () => Promise<void>
+    ): Steps {
+        this.asyncConteinerFunctions.push(
+            async () => await this._createStep(stepName, asyncFunction)
         )
         return this
     }
@@ -120,12 +143,29 @@ export default class Steps {
         }
         this.asyncFunctions = []
     }
+
+    public async start(): Promise<void> {
+        for (const asyncFunc of this.asyncConteinerFunctions) {
+            try {
+                await asyncFunc()
+            } catch (e) {
+                throw e
+            }
+        }
+        this.asyncConteinerFunctions = []
+    }
 }
 
+/**
+ * Замена {0} на значения который будут использоваться в названии щагов
+ */
 function formatString(template: string, ...args: any[]): string {
     return template.replace(/\{(\d+)\}/g, (match, index) => `"${args[index]}"`)
 }
 
+/**
+ * Декоратор для всех шагов
+ */
 function qwaStep(logText: string) {
     return function (
         target: any,
@@ -136,7 +176,7 @@ function qwaStep(logText: string) {
 
         descriptor.value = async function (...args: any[]) {
             const stepName = formatString(logText, ...args)
-            info(stepName)
+            info(steps.prefix + stepName)
             try {
                 await pw.page.waitForTimeout(100)
                 await originalMethod.apply(this, args)

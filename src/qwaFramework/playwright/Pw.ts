@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, chromium, Page } from 'playwright'
+import { Browser, BrowserContext, chromium, devices, Page } from 'playwright'
 import { debug, error } from '../core/utils/logger/Logs'
 
 export type PwType = {
@@ -24,7 +24,7 @@ export default class Pw /*implements PwType*/ {
         this.setDefaultTimeouts()
     }
 
-    public getDefaultTimeout(){
+    public getDefaultTimeout() {
         return this.defaultTimeout
     }
 
@@ -34,12 +34,17 @@ export default class Pw /*implements PwType*/ {
      */
     // @ts-ignore
     public static async init(): Promise<Pw> {
+        //let browserContext : BrowserContext
         try {
             const browser = await chromium.launch({
                 chromiumSandbox: true,
-                headless: false,
+                headless: process.env.HEADLESS === 'false' ? false : true,
             })
-            const browserContext = await browser.newContext()
+
+            const device = process.env.DEVICE || '';
+            const browserContext = await browser.newContext(device ? devices[device] : {});
+
+
             const page = await browserContext.newPage()
             debug(`Browser started`)
             return new Pw(browser, browserContext, page)

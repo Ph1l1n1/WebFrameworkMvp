@@ -8,6 +8,7 @@ export class ServicePlaywright {
     }
 
     public static async afterAll(): Promise<void> {
+        debug(`ServicePlaywright - afterAll`)
         await pw.close()
     }
 }
