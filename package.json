@@ -16,7 +16,7 @@
         "assert": "^2.1.0",
         "pino": "^8.15.0",
         "pino-pretty": "^10.2.0",
-        "playwright": "^1.37.1",/
+        "playwright": "^1.37.1",
         "prettier": "^3.2.2",
         "source-map-support": "^0.5.21"
     },

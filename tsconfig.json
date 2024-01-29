@@ -1,0 +1,36 @@
+{
+
+    "compilerOptions": {
+        "types": ["node" , "global"],
+        "outDir": "./dist",
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "typeRoots": [
+            "./node_modules/@types",
+            "src/qwaFramework/types/global.d.ts"
+        ],
+        "rootDir": "./src",
+        "declaration": true,
+        "strict": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "paths": {
+            "*": ["node_modules/*", "src/types/*"]
+        }
+    },
+
+    "compileOnSave": false,
+    "include": [
+        "./src/**/*", "./test/**/*",
+        "src/qwaFramework/types/global.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "<node_internals>/**",
+        "bin/**"
+    ]
+}
